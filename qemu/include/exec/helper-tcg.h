@@ -60,6 +60,7 @@
 
 #include "helper.h"
 #include "accel/tcg/tcg-runtime.h"
+#include "accel/tcg/tcg-runtime-symsan.h"
 
 #undef str
 #undef DEF_HELPER_FLAGS_0

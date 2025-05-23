@@ -86,8 +86,8 @@ option(UNICORN_FUZZ "Enable fuzzing" OFF)
 option(UNICORN_LOGGING "Enable logging" OFF)
 option(UNICORN_BUILD_TESTS "Build unicorn tests" ${PROJECT_IS_TOP_LEVEL})
 option(UNICORN_INSTALL "Enable unicorn installation" ${PROJECT_IS_TOP_LEVEL})
-set(UNICORN_ARCH "x86;arm;aarch64;riscv;mips;sparc;m68k;ppc;s390x;tricore" CACHE STRING "Enabled unicorn architectures")
 option(UNICORN_TRACER "Trace unicorn execution" OFF)
+set(UNICORN_ARCH "x86;arm;aarch64;riscv;mips;sparc;m68k;ppc;s390x;tricore" CACHE STRING "Enabled unicorn architectures")
 
 foreach(ARCH_LOOP ${UNICORN_ARCH})
     string(TOUPPER "${ARCH_LOOP}" ARCH_LOOP)
@@ -110,6 +110,8 @@ include_directories(
     qemu/include
     include
     qemu/tcg
+    symsan/runtime
+    symsan/include
 )
 
 # QEMU logging facility
@@ -503,6 +505,8 @@ set(UNICORN_ARCH_COMMON
     qemu/accel/tcg/tcg-runtime-gvec.c
     qemu/accel/tcg/translate-all.c
     qemu/accel/tcg/translator.c
+
+    qemu/accel/tcg/tcg-runtime-symsan.c
 
     qemu/softmmu/unicorn_vtlb.c
 )
@@ -1215,6 +1219,7 @@ if(MSVC)
         set(UNICORN_COMMON_SRCS ${UNICORN_COMMON_SRCS} qemu/util/setjmp-wrapper-win32.asm)
         set_property(SOURCE qemu/util/setjmp-wrapper-win32.asm PROPERTY LANGUAGE ASM_MASM)
     endif()
+    set(UNICORN_COMMON_SRCS ${UNICORN_COMMON_SRCS} qemu/util/oslib-posix.c qemu/util/qemu-thread-posix.c)
 else()
     set(UNICORN_COMMON_SRCS
         ${UNICORN_COMMON_SRCS}
