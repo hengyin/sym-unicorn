@@ -1,3 +1,6 @@
 [submodule "docs/Unicorn_Engine_Documentation"]
 	path = docs/Unicorn_Engine_Documentation
 	url = https://github.com/kabeor/Unicorn-Engine-Documentation
+[submodule "symsan"]
+	path = symsan
+	url = https://github.com/bitsecurerlab/symsan.git
